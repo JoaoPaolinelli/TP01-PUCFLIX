@@ -121,4 +121,3 @@ No fim, conseguimos construir um sistema robusto, com controle completo das enti
 ## 👥 Participantes
 - João Paolinelli e Silva (Matricula: 701540)
 - [Adicione mais participantes se houver]
-
