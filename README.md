@@ -20,7 +20,7 @@ Implementar um sistema de gerenciamento de séries de streaming com seus respect
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seuusuario/pucflix.git
+git clone https://github.com/JoaoPaolinelli/TP01-PUCFLIX.git
 cd pucflix
 ```
 
