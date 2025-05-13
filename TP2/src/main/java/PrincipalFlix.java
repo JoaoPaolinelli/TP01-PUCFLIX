@@ -36,7 +36,7 @@ public class PrincipalFlix {
 
       int opc;
       do {
-        System.out.println("\nPUCFlix 1.0 - Menu Principal");
+        System.out.println("\nPUCFlix 2.0 - Menu Principal");
         System.out.println("1) Séries");
         System.out.println("2) Episódios (por série)");
         System.out.println("3) Atores");
