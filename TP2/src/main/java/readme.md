@@ -115,10 +115,10 @@ A busca flexível por nome e a prevenção de exclusão com dependências foram 
 
 * João Paolinelli e Silva (Matricula: 701540)
 * Daniel Lucas Soares Madureira (Matrícula: 796363)
-* Ana
+* Ana Luíza de Morais Lemos (Matrícula: 848420)
 
 ---
 
 ## 🔗 Repositório GitHub
 
-[https://github.com/seuusuario/pucflix](https://github.com/seuusuario/pucflix)
+https://github.com/JoaoPaolinelli/TP01-PUCFLIX/tree/main/TP2/src/main/java
