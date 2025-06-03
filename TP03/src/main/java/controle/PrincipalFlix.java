@@ -2,8 +2,6 @@
 import java.lang.reflect.Constructor;
 import java.util.Scanner;
 
-import aeds3.ArvoreBMais;
-import aeds3.ParIntInt;
 import controle.ControleAtores;
 import controle.ControleEpisodios;
 import controle.ControleIndices;
@@ -14,6 +12,8 @@ import entidades.Serie;
 import modelo.ArquivoAtor;
 import modelo.ArquivoEpisodios;
 import modelo.ArquivoSeries;
+import aeds3.ParIntInt;
+import aeds3.ArvoreBMais;
 
 public class PrincipalFlix {
 
@@ -21,19 +21,22 @@ public class PrincipalFlix {
         try {
             Scanner sc = new Scanner(System.in);
 
+            // Inicializa arquivos
             ArquivoSeries arqSeries = new ArquivoSeries();
             ArquivoEpisodios arqEpisodios = new ArquivoEpisodios();
             ArquivoAtor arqAtor = new ArquivoAtor();
 
+            // Inicializa árvores de relacionamento N:N
             Constructor<ParIntInt> construtor = ParIntInt.class.getConstructor();
-            ArvoreBMais<ParIntInt> serieAtores = new ArvoreBMais<>(construtor, 4, "dados/serie-atores.db");
-            ArvoreBMais<ParIntInt> atorSeries = new ArvoreBMais<>(construtor, 4, "dados/ator-series.db");
+
+            ArvoreBMais<ParIntInt> serieAtores = new ArvoreBMais<>(construtor, 4, "serie-atores.db");
+            ArvoreBMais<ParIntInt> atorSeries = new ArvoreBMais<>(construtor, 4, "ator-series.db");
 
             ControleIndices controleIndices = new ControleIndices();
 
+            // Inicializa controles
             ControleSeries controleSeries = new ControleSeries(arqSeries, arqEpisodios, arqAtor, serieAtores, atorSeries, controleIndices);
-            ControleAtores controleAtores = new ControleAtores(arqAtor, arqSeries, atorSeries, controleIndices);
-
+            ControleAtores controleAtores = new ControleAtores(arqAtor, arqSerie, atorSeries, controleIndices);
             int opc;
             do {
                 System.out.println("\nPUCFlix 2.0 - Menu Principal");
@@ -69,18 +72,16 @@ public class PrincipalFlix {
     }
 
     public static void popularDados(ControleIndices controleIndices) {
-        System.out.println("\nPopulando a base de dados... Isso pode levar um momento.");
         try {
             ArquivoSeries arqSeries = new ArquivoSeries();
             ArquivoEpisodios arqEpisodios = new ArquivoEpisodios();
             ArquivoAtor arqAtor = new ArquivoAtor();
 
             Constructor<ParIntInt> construtor = ParIntInt.class.getConstructor();
-            ArvoreBMais<ParIntInt> serieAtores = new ArvoreBMais<>(construtor, 4, "dados/serie-atores.db");
-            ArvoreBMais<ParIntInt> atorSeries = new ArvoreBMais<>(construtor, 4, "dados/ator-series.db");
+            ArvoreBMais<ParIntInt> serieAtores = new ArvoreBMais<>(construtor, 4, "serie-atores.db");
+            ArvoreBMais<ParIntInt> atorSeries = new ArvoreBMais<>(construtor, 4, "ator-series.db");
 
-            // --- Atores ---
-            System.out.println("Criando e indexando atores...");
+            // Atores
             Ator a1 = new Ator("Bryan Cranston");
             arqAtor.create(a1);
             controleIndices.indexarAtor(a1);
@@ -100,21 +101,19 @@ public class PrincipalFlix {
             arqAtor.create(a6);
             controleIndices.indexarAtor(a6);
 
-            // --- Séries ---
-            System.out.println("Criando e indexando séries...");
+            // Séries
             Serie s1 = new Serie("Breaking Bad", (short) 2008, "Um professor de química vira traficante.", "Netflix");
+            Serie s2 = new Serie("Stranger Things", (short) 2016, "Crianças enfrentam o Mundo Invertido.", "Netflix");
+            Serie s3 = new Serie("The Boys", (short) 2019, "Super-heróis corruptos enfrentam vigilantes.", "Prime Video");
+
             arqSeries.create(s1);
             controleIndices.indexarSerie(s1);
-
-            Serie s2 = new Serie("Stranger Things", (short) 2016, "Crianças enfrentam o Mundo Invertido.", "Netflix");
             arqSeries.create(s2);
             controleIndices.indexarSerie(s2);
-
-            Serie s3 = new Serie("The Boys", (short) 2019, "Super-heróis corruptos enfrentam vigilantes.", "Prime Video");
             arqSeries.create(s3);
             controleIndices.indexarSerie(s3);
 
-            // --- Vincular atores às séries ---
+            // Vincular atores às séries
             System.out.println("Vinculando atores e séries...");
             serieAtores.create(new ParIntInt(s1.getID(), a1.getID()));
             serieAtores.create(new ParIntInt(s1.getID(), a2.getID()));
@@ -131,9 +130,10 @@ public class PrincipalFlix {
             atorSeries.create(new ParIntInt(a5.getID(), s3.getID()));
             atorSeries.create(new ParIntInt(a6.getID(), s3.getID()));
 
-            // --- Episódios ---
+            // Episódios
             System.out.println("Criando e indexando episódios...");
 
+            // Episódios de Breaking Bad (ID da Série: s1.getID())
             Episodio ep1 = new Episodio(s1.getID(), "Piloto", (short) 1, "2008-01-20", 58, "Walter inicia sua jornada.");
             arqEpisodios.create(ep1);
             controleIndices.indexarEpisodio(ep1);
@@ -146,6 +146,7 @@ public class PrincipalFlix {
             arqEpisodios.create(ep3);
             controleIndices.indexarEpisodio(ep3);
 
+            // Episódios de Stranger Things (ID da Série: s2.getID())
             Episodio ep4 = new Episodio(s2.getID(), "O desaparecimento de Will Byers", (short) 1, "2016-07-15", 47, "Will desaparece misteriosamente.");
             arqEpisodios.create(ep4);
             controleIndices.indexarEpisodio(ep4);
@@ -154,6 +155,7 @@ public class PrincipalFlix {
             arqEpisodios.create(ep5);
             controleIndices.indexarEpisodio(ep5);
 
+            // Episódio de The Boys (ID da Série: s3.getID())
             Episodio ep6 = new Episodio(s3.getID(), "The Name of the Game", (short) 1, "2019-07-26", 59, "Hughie entra no time.");
             arqEpisodios.create(ep6);
             controleIndices.indexarEpisodio(ep6);
@@ -161,8 +163,9 @@ public class PrincipalFlix {
             System.out.println("\nBase de dados populada e indexada com sucesso!");
 
         } catch (Exception e) {
-            System.err.println("\nERRO ao popular dados:");
+            System.out.println("Erro ao popular dados:");
             e.printStackTrace();
         }
     }
+
 }
